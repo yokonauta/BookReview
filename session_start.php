@@ -12,10 +12,10 @@
         //print("user name : " . $_POST['uname'] . "<br>");
         //print("password : " . $_POST['pass'] . "<br>");
 
-        $db_file = "bookreview.sqlite3";
         $table_name = "user";
         try{
-            $db = new PDO('sqlite:sqlite3/' . $db_file);
+			include 'sqlite-env.php';
+            $db = new PDO($db_file);
             $sql = "SELECT COUNT(*) FROM " . $table_name;
             $sql = $sql . " WHERE username='" . $_POST['uname'] . "' AND password ='" . $_POST['pass'] ."'";
             //print("sql : " . $sql . "<br>");

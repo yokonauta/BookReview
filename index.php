@@ -1,10 +1,11 @@
 <?php
 include 'load_first.html';
+include 'sqlite-env.php';
 print("<title>Home</title>");
 
 {
     //=== ARTICLE ===
-    $file_db = new PDO('sqlite:sqlite3/bookreview.sqlite3');
+    $file_db = new PDO($db_file);
     $sql = "SELECT article.id,title,intro,body,author.first_name,author.last_name,genre,pub_date,state,image1";
     $sql = $sql . " FROM article";
     $sql = $sql . " INNER JOIN author ON article.author_id = author.id";
@@ -34,8 +35,10 @@ print("<title>Home</title>");
 
         print("<div class='w3-container'><h3><b>$title</b></h3>");
         print("<h5>$author_first_name,$author_last_name<span class='w3-opacity'>&nbsp;$pub_date</span></h5></div>");
+		print("<div class='w3-container'>");
+        print("<img src='$image_directory$image1' height='150' />");
+		print("</div>");
 
-        print("<img src='UploadedImages/$image1' height='150' />");
         print("<div class='w3-container'><input type='checkbox' class='read-more-state' id='post-$cnt' />");
         print("<p class='read-more-wrap'>");
         print($intro);

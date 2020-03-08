@@ -1,7 +1,7 @@
 <?php
-    $db_file = "bookreview.sqlite3";
+    include 'sqlite-env.php';
     try{
-        $db = new PDO('sqlite:sqlite3/' . $db_file);
+        $db = new PDO($db_file);
         $sql = "SELECT COUNT(*) FROM user";
         $stmt = $db->prepare($sql);
         $stmt->execute();

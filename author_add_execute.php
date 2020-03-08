@@ -1,11 +1,11 @@
 <?php
-
+include "sqlite-env.php";
 if (isset($_POST['first_name']) && $_POST['last_name']) {
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
 
     try {
-        $db = new PDO('sqlite:sqlite3/bookreview.sqlite3');
+        $db = new PDO($db_file);
         $sql = "insert into author (first_name,last_name)";
         $sql = $sql . " values ('" . $first_name . "','" . $last_name . "')";
         //print($sql);

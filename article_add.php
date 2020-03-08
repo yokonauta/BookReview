@@ -1,4 +1,8 @@
-<?php include 'load_first.html'; ?>
+<?php include 'load_first.html';?>
+<?php 
+include 'sqlite-env.php';
+//$db_file = 'sqlite:sqlite3/bookreview.sqlite3';
+?>
 <title>Add new article</title>
 <link rel='stylesheet' href='css/table.css'>
 <div class="w3-content" style="max-width:1400px">
@@ -18,7 +22,7 @@
 
 try{
     //=== AUTHOR ===
-    $db = new PDO('sqlite:sqlite3/bookreview.sqlite3');
+    $db = new PDO($db_file);
     $results = $db->query('SELECT * FROM author');
     $db = null;
     $row = $results->fetchAll();
@@ -31,7 +35,7 @@ try{
     }
     $author_cnt = count($author_array);
     //=== GENRE ===
-    $genre_db = new PDO('sqlite:sqlite3/bookreview.sqlite3');
+    $genre_db = new PDO($db_file);
     $stmt = $genre_db->prepare("SELECT * FROM genre");
     $stmt->execute();
     $genre_result = $stmt->fetchAll();
@@ -50,10 +54,9 @@ try{
         <div class="w3-panel w3-white" >
 
             <?php
-            $db_file = "bookreview.sqlite3";
             $table_name = "article";
             try{
-            $db = new PDO('sqlite:sqlite3/' . $db_file);
+            $db = new PDO($db_file);
             /* get one page */
             $sql = "SELECT article.id,title,intro,body,author.first_name,author.last_name,genre.name,pub_date,image1";
             $sql = $sql . " FROM " . $table_name;
@@ -97,17 +100,22 @@ try{
                 //print("<td>$image1</td>");
 
                 // delete button start
-                //print("<td><a href='article_delete_execute.php?id=");
-                //print($id);
-                //print("&cursor=");
-                //print($id);
-                //print("' class='w3-btn w3-grey' >delete</a></td>");
-
-				// Call Confirm modal dialog
-				print("<td><form name='btnForm' method='post' action='article_delete_execute.php' onsubmit='return submitChk()'>");
+                /* No Confirm Dialog
+				print("<td><a href='article_delete_execute.php?id=");
+                print($id);
+                print("&cursor=");
+                print($id);
+                print("' class='w3-btn w3-grey' >delete</a></td>");
+				*/
+				
+				// Call Confirm modal dialog + script "submitChk ()"
+				print("<td><form name='btnForm' method='post' action='article_delete_execute.php?id=");
+                print($id);
+                print("&cursor=");
+                print($id);
+				print("' onsubmit='return submitChk()'>");
 				print("<input class='w3-btn w3-grey'  type='submit' name='submit' value='delete'>");
 				print("</form></td>");
-
 
                 // delete button finish
 				
@@ -210,13 +218,12 @@ try{
     </div><!--===== Side close =====-->
 
 </div><!--w3-row-->
-
-<script>
-    function submitChk () {
-        var flag = confirm ( "Execute?");
-        return flag;
-    }
-</script>
+				<script>
+					function submitChk () {
+						var flag = confirm ( "Execute?");
+						return flag;
+					}
+				</script>
 
 <?php include "footer.html"; ?>
 

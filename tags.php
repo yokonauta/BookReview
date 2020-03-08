@@ -6,7 +6,8 @@
             <p>
             <?php
             try {
-                $db = new PDO('sqlite:sqlite3/bookreview.sqlite3');
+				include 'sqlite-env.php';
+                $db = new PDO($db_file);
                 $sql = "SELECT * FROM genre";
                 $stmt = $db->prepare($sql);
                 $stmt->execute();

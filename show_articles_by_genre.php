@@ -1,5 +1,6 @@
 <?php
 include 'load_first.html';
+include 'sqlite-env.php';
 print("<title>show articles</title>");
 if(isset($_GET['genre'])) {
     $genre = $_GET['genre'];
@@ -7,7 +8,7 @@ if(isset($_GET['genre'])) {
     //print("<br>");
 
     //=== ARTICLE ===
-    $file_db = new PDO('sqlite:sqlite3/bookreview.sqlite3');
+    $file_db = new PDO($db_file);
     $sql = "SELECT article.id,title,intro,body,author.first_name,author.last_name,pub_date,state,image1";
     $sql = $sql . " FROM article";
     $sql = $sql . " INNER JOIN author ON article.author_id = author.id";

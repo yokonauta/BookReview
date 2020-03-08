@@ -1,4 +1,7 @@
-<?php include 'load_first.html' ?>
+<?php 
+include 'load_first.html';
+include 'sqlite-env.php'; 
+?>
 <title>Add new genre</title>
 <link rel='stylesheet' href='css/table.css'>
 <div class="w3-content" style="max-width:1400px">
@@ -18,10 +21,9 @@
         <div class='w3-card-4 w3-margin w3-white'>
         <div class='w3-container'>
             <?php
-            $db_file = "bookreview.sqlite3";
             $table_name = "genre";
             try{
-            $db = new PDO('sqlite:sqlite3/' . $db_file);
+            $db = new PDO($db_file);
             $sql = "SELECT * FROM " . $table_name;
             $stmt = $db->prepare($sql);
             $stmt->execute();

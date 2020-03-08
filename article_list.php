@@ -1,4 +1,7 @@
-<?php include "load_first.html"; ?>
+<?php 
+include "load_first.html"; 
+include 'sqlite-env.php';
+?>
 <title>article list</title>
 <?php include 'js/jump_listbox.js'; ?>
 
@@ -23,7 +26,7 @@
 <?php
 try{
     //=== GENRE ===
-    $genre_db = new PDO('sqlite:sqlite3/bookreview.sqlite3');
+    $genre_db = new PDO($db_file);
     $stmt = $genre_db->prepare("SELECT * FROM genre");
     $stmt->execute();
     $genre_result = $stmt->fetchAll();
@@ -54,7 +57,7 @@ try{
 
 <?php
     //=== ARTICLE ===
-    $db = new PDO('sqlite:sqlite3/bookreview.sqlite3');
+    $db = new PDO($db_file);
     $sql = "SELECT article.id,title,intro,body,author.first_name,author.last_name,genre.name,pub_date";
     $sql = $sql . " FROM article";
     $sql = $sql . " INNER JOIN author ON article.author_id = author.id";

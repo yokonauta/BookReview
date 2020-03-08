@@ -1,4 +1,5 @@
 <?php
+include sqlite-enc.php;
 
 if (isset($_POST['title'])) {
     $title    = $_POST['title'];
@@ -16,7 +17,8 @@ if (isset($_POST['title'])) {
     $target_file = $target_dir . $file_name;
 
     try {
-        $db = new PDO('sqlite:sqlite3/bookreview.sqlite3');
+        $db = new PDO($db_file);
+
         $sql = "insert into article (title,intro,body,author_id,genre,pub_date,state,image1)";
         $sql = $sql . " values ('" . $title . "','" . $intro . "','" . $body . "','";
         $sql = $sql . $author . "','" . $genre . "','" . $pub_date . "','";

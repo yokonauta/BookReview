@@ -1,4 +1,7 @@
-<?php include "load_first.html"; ?>
+<?php 
+include "load_first.html"; 
+include 'sqlite-env.php';
+?>
 <title>Article Detail</title>
 <link rel='stylesheet' href='css/table.css'>
 <?php include 'header.php'; ?>
@@ -10,7 +13,7 @@ if(isset($_GET['id'])) {
     $id = $_GET['id'];
     try{
         //=== AUTHOR ===
-        $db = new PDO('sqlite:sqlite3/bookreview.sqlite3');
+        $db = new PDO($db_file);
         $results = $db->query('SELECT id,first_name, last_name FROM author');
         $db = null;
         $row = $results->fetchAll();
@@ -38,7 +41,7 @@ if(isset($_GET['id'])) {
 			$sql = $sql . "',image1 = '" . $file_name. "'";
         }
 		$sql = $sql . " where id = " . $id;
-        $db = new PDO('sqlite:sqlite3/bookreview.sqlite3');
+        $db = new PDO($db_file);
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $db = null;

@@ -1,5 +1,5 @@
 <?php
-include 'sqlite_env.php';
+include 'sqlite-env.php';
 ?>
 
 <?php

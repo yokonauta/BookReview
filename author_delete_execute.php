@@ -1,10 +1,11 @@
 <?php
+include "sqlite-env.php";
 $idx = 0;
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $idx = $_GET['cursor'] - 1;
     try {
-        $db = new PDO('sqlite:sqlite3/bookreview.sqlite3');
+        $db = new PDO($db_file);
         $sql = "delete from author where id =" . $id;
         //print($sql);
         $stmt = $db->prepare($sql);
