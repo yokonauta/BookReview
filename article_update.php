@@ -34,13 +34,16 @@ if(isset($_GET['id'])) {
 
         //=== UPDATE DATA ===
         $sql = "update article set ";
-        $sql = $sql . "title = '" . $_POST['title'] . "',intro = '" . $intro . "',body = '" . $body . "',";
-        $sql = $sql . "author_id = " . $_POST['author'] . ",genre = " . $_POST['genre'] . ",pub_date = '" . $_POST['pub_date'] . "',";
+        $sql = $sql . "title = '" . $_POST['title'] . "',intro = \"" . $intro . "\",body = \"" . $body . "\",";
+        $sql = $sql . "author_id = " . $_POST['author'] . ",genre_id = " . $_POST['genre'] . ",pub_date = '" . $_POST['pub_date'] . "',";
         $sql = $sql . "state = '" . $_POST['state'] . "'";
-		if ($keep==true){
-			$sql = $sql . "',image1 = '" . $file_name. "'";
+		if ($_POST['keep']!=true){
+			$sql = $sql . ",image1 = '" . $file_name . "'";
         }
 		$sql = $sql . " where id = " . $id;
+		
+		//print($sql);
+		
         $db = new PDO($db_file);
         $stmt = $db->prepare($sql);
         $stmt->execute();

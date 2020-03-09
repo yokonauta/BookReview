@@ -1,35 +1,28 @@
 <?php
 include 'load_first.html';
 include 'sqlite-env.php';
-print("<title>show articles</title>");
-if(isset($_GET['genre'])) {
-    $genre = $_GET['genre'];
-    //print("genre is $genre \n");
-    //print("<br>");
 
-    //=== ARTICLE ===
-    $file_db = new PDO($db_file);
-    $sql = "SELECT article.id,title,intro,body,author.first_name,author.last_name,pub_date,state,image1";
-    $sql = $sql . " FROM article";
-    $sql = $sql . " INNER JOIN author ON article.author_id = author.id";
-    $sql = $sql . " where genre = $genre";
-    $stmt = $file_db->prepare($sql);
-    $stmt->execute();
-    $result = $stmt->fetchAll();
-    $file_db = null;
-}
+require_once("function_select_article.php");
+
+if(isset($_GET['genre'])) $genre = $_GET['genre'];
+else $genre = 1;
+
+
 ?>
+<title>show articles</title>
 <div class="w3-content" style="max-width:1400px">
+
 <?php include 'header.php';?>
 
-
 <div class="w3-row">
-    <!--===== Contents =====-->
-<!-- Blog entries -->
-<div class="w3-col l8 s12">
+	<!--===== Contents =====-->
+	<!-- Blog entries -->
+	<div class="w3-col l8 s12">
     <!-- Blog entry -->
     
 <?php
+	if ($genre)
+	$result = select_article_by_genre($db_file,$genre);
     if ($result){
     $cnt=1;
     foreach($result as list($id,$title,$intro,$body,$author_first_name,$author_last_name,$pub_date,$state,$image1))

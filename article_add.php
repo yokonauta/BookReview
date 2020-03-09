@@ -1,7 +1,7 @@
-<?php include 'load_first.html';?>
 <?php 
+include 'load_first.html';
 include 'sqlite-env.php';
-//$db_file = 'sqlite:sqlite3/bookreview.sqlite3';
+require_once('function_select_article.php');
 ?>
 <title>Add new article</title>
 <link rel='stylesheet' href='css/table.css'>
@@ -54,30 +54,33 @@ try{
         <div class="w3-panel w3-white" >
 
             <?php
-            $table_name = "article";
             try{
+				/*
             $db = new PDO($db_file);
-            /* get one page */
-            $sql = "SELECT article.id,title,intro,body,author.first_name,author.last_name,genre.name,pub_date,image1";
-            $sql = $sql . " FROM " . $table_name;
+            $sql = "SELECT article.id,title,intro,body,author.first_name,author.last_name,genre.name,pub_date,state,image1";
+            $sql = $sql . " FROM article";
             $sql = $sql . " INNER JOIN author ON article.author_id = author.id";
-            $sql = $sql . " INNER JOIN genre ON article.genre = genre.id";
+            $sql = $sql . " INNER JOIN genre ON article.genre_id = genre.id";
             $sql = $sql . " ORDER BY article.pub_date DESC";
             $sql = $sql . " LIMIT " . $range . " OFFSET " . $cursor; 
             $stmt = $db->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll();
             /* get total count */
+            /*$db = new PDO($db_file);
             $sql = "SELECT count(*) FROM article";
             $stmt = $db->prepare($sql);
             $stmt->execute();
             $total = $stmt->fetchColumn();
-            /* call destructor */
+            
             $db = null;
+			*/
+			
+			$result = select_article_one_page($db_file,$range,$cursor);
+			$total = get_total_count($db_file,"article");
             $last=$cursor+$range;
             if ($last>$total)$last=$total;
 
-            //print("<table><tr><th>id</th><th>title</th><th>author</th><th>genre</th><th>pub_date</th></tr>");
             print("<table><tr><th>title</th><th>author</th><th>genre</th><th>publicated date</th><th>total : $total</th></tr>");
             foreach($result as list(
                 $id,
@@ -88,15 +91,18 @@ try{
                 $author_last_name,
                 $genre,
                 $pub_date,
+				$state,
                 $image1,
             ) )
             {
                 print("<tr>");
                 //print("<td>$id</td>");
-                print("<td>$title</td>");
-                print("<td>$author_first_name,$author_last_name</td>");
-                print("<td>$genre</td>");
-                print("<td>$pub_date</td>");
+				if ($state == 'Published')$color='#222222';
+				else                      $color='#a0a0a0';
+                print("<td><font color=$color>$title<font></td>");
+                print("<td><font color=$color>$author_first_name,$author_last_name<font></td>");
+                print("<td><font color=$color>$genre<font></td>");
+                print("<td><font color=$color>$pub_date<font></td>");
                 //print("<td>$image1</td>");
 
                 // delete button start
@@ -112,9 +118,9 @@ try{
 				print("<td><form name='btnForm' method='post' action='article_delete_execute.php?id=");
                 print($id);
                 print("&cursor=");
-                print($id);
+                print($cursor);
 				print("' onsubmit='return submitChk()'>");
-				print("<input class='w3-btn w3-grey'  type='submit' name='submit' value='delete'>");
+				print("<input class='w3-btn w3-grey'  type='submit' name='submit' value='del'>");
 				print("</form></td>");
 
                 // delete button finish

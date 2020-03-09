@@ -43,9 +43,20 @@ include 'sqlite-env.php';
             for ($i=$cursor; $i<$last; $i++){
                 print("<tr>");
                 print("<td>" . $id_array[$i] . "</td><td>" . $item_array[$i] . "</td>");
+				
+				/*
                 print("<td><a href='genre_delete_execute.php?id=");
                 print($id_array[$i]);
                 print("' class='w3-btn w3-grey' >delete</a></td>");
+				*/
+				// Call Confirm modal dialog + script "submitChk ()"
+				print("<td><form name='btnForm' method='post' action='genre_delete_execute.php?id=");
+                print($id_array[$i]);
+				print("' onsubmit='return submitChk()'>");
+				print("<input class='w3-btn w3-grey'  type='submit' name='submit' value='Delete'>");
+				print("</form></td>");
+				
+				
                 print("</tr>");
             }
             print("</table><br>");
@@ -86,5 +97,11 @@ include 'sqlite-env.php';
 
 </div><!--w3-row-->
 
+				<script>
+					function submitChk () {
+						var flag = confirm ( "Execute?");
+						return flag;
+					}
+				</script>
 
 <?php include "footer.html"; ?>

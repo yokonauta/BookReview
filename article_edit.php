@@ -19,7 +19,7 @@ try{
     $result = $stmt->fetchAll();
     $file_db = null;
 
-    list($id,$title,$intro,$body,$author,$genre,$pub_date,$state,$image1,$image2,$image3,$image4) = $result[0];
+    list($id,$title,$intro,$body,$author,$genre,$pub_date,$state,$keep,$image1,$image2,$image3,$image4) = $result[0];
     //=== AUTHOR ===
     $db = new PDO($db_file);
     $results = $db->query('SELECT * FROM author');
@@ -113,7 +113,8 @@ try{
     </p>
     <p>
     <label class="w3-text-gray"for="image1"><b>Image1</b></label>
-	<input value="<?php echo $image1; ?>"  readonly />&nbsp;<input type="checkbox" name="keep" value="1" checked="checked">Keep<p>
+	<input value="<?php echo $image1; ?>"  readonly />&nbsp;
+	<input type="checkbox" name="keep" value="1" checked="checked">Keep<p>
     <input class="w3-btn w3-light-blue" type="file" name="image1" size="20" accept=".jpg, .jpeg, .png">
     </p>
     <p>

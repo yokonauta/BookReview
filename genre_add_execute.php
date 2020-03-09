@@ -1,10 +1,10 @@
 <?php
-
+include 'sqlite-env.php';
 if (isset($_POST['genre'])) {
     $genre = $_POST['genre'];
 
     try {
-        $db = new PDO('sqlite:sqlite3/bookreview.sqlite3');
+        $db = new PDO($db_file);
         $sql = "insert into genre (name)";
         $sql = $sql . " values ('" . $genre . "')";
         //print($sql);

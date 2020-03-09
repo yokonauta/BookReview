@@ -1,23 +1,26 @@
 <?php
 include 'load_first.html';
 include 'sqlite-env.php';
+require_once("function_select_article.php");
 
-print("<title>show articles</title>");
-if(isset($_GET['id'])) {
-    $id = $_GET['id'];
+if(isset($_GET['id'])) $id = $_GET['id'];
+else $id = 1;
 
+/*
     //=== ARTICLE ===
     $file_db = new PDO($db_file);
-    $sql = "SELECT article.id,title,intro,body,author.first_name,author.last_name,genre,pub_date,state,image1";
+    $sql = "SELECT article.id,title,intro,body,author.first_name,author.last_name,genre.name,pub_date,state,image1";
     $sql = $sql . " FROM article";
     $sql = $sql . " INNER JOIN author ON article.author_id = author.id";
+    $sql = $sql . " INNER JOIN genre ON article.genre_id = genre.id";
     $sql = $sql . " where article.id = $id";
     $stmt = $file_db->prepare($sql);
     $stmt->execute();
     $result = $stmt->fetchAll();
-    $file_db = null;
-}
+    $file_db = null;*/
+
 ?>
+<title>show articles</title>
 <div class="w3-content" style="max-width:1400px">
 <?php include 'header.php';?>
 
@@ -29,6 +32,7 @@ if(isset($_GET['id'])) {
     <!-- Blog entry -->
     
 <?php
+	$result = select_article_by_id($db_file,$id);
     if ($result){
     $cnt=1;
     foreach($result as list($id,$title,$intro,$body,$author_first_name,$author_last_name,$genre,$pub_date,$state,$image1))

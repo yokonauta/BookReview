@@ -11,6 +11,7 @@ if (isset($_POST['title'])) {
     $genre    = $_POST['genre'];
     $pub_date = $_POST['pub_date'];
     $state    = $_POST['state'];
+    $keep     = $_POST['keep'];
 
     $target_dir = "UploadedImages/";
     $file_name = basename($_FILES['image1']['name']);
@@ -19,7 +20,7 @@ if (isset($_POST['title'])) {
     try {
         $db = new PDO($db_file);
 
-        $sql = "insert into article (title,intro,body,author_id,genre,pub_date,state,image1)";
+        $sql = "insert into article (title,intro,body,author_id,genre_id,pub_date,state,image1)";
         $sql = $sql . " values ('" . $title . "','" . $intro . "','" . $body . "','";
         $sql = $sql . $author . "','" . $genre . "','" . $pub_date . "','";
         $sql = $sql . $state . "','" . $file_name . "')";

@@ -17,8 +17,8 @@
 			include 'sqlite-env.php';
             $db = new PDO($db_file);
             $sql = "SELECT COUNT(*) FROM " . $table_name;
-            $sql = $sql . " WHERE username='" . $_POST['uname'] . "' AND password ='" . $_POST['pass'] ."'";
-            //print("sql : " . $sql . "<br>");
+            $sql = $sql . " WHERE uname='" . $_POST['uname'] . "' AND password ='" . $_POST['pass'] ."'";
+            print("sql : " . $sql . "<br>");
             $stmt = $db->prepare($sql);
             $stmt->execute();
             $total = $stmt->fetchColumn();

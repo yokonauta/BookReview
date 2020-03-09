@@ -1,15 +1,14 @@
 <?php 
 include "load_first.html"; 
 include 'sqlite-env.php';
+include 'js/jump_listbox.js';
+require_once("function_select_article.php");
 ?>
-<title>article list</title>
-<?php include 'js/jump_listbox.js'; ?>
 
+<title>article list</title>
 <link rel='stylesheet' href='css/table.css'>
 <div class="w3-content" style="max-width:1400px">
 <?php include 'header.php'; ?>
-
-
 
 <?php
     //=== Paging ===
@@ -24,14 +23,9 @@ include 'sqlite-env.php';
 ?>
 
 <?php
-try{
-    //=== GENRE ===
-    $genre_db = new PDO($db_file);
-    $stmt = $genre_db->prepare("SELECT * FROM genre");
-    $stmt->execute();
-    $genre_result = $stmt->fetchAll();
-    $genre_db = null;
-    $genre_list_cnt = count($genre_result);
+	
+	$genre_result = total_count_genre($db_file);
+	$genre_list_cnt = count($genre_result);
 
 ?>
 
@@ -56,27 +50,10 @@ try{
 </form>
 
 <?php
-    //=== ARTICLE ===
-    $db = new PDO($db_file);
-    $sql = "SELECT article.id,title,intro,body,author.first_name,author.last_name,genre.name,pub_date";
-    $sql = $sql . " FROM article";
-    $sql = $sql . " INNER JOIN author ON article.author_id = author.id";
-    $sql = $sql . " INNER JOIN genre ON article.genre = genre.id";
-    $sql = $sql . " WHERE article.genre = " . $filter;
-    $sql = $sql . " ORDER BY article.pub_date DESC";
-    $sql = $sql . " LIMIT " . $range . " OFFSET " . $cursor; 
-    //print($sql);
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
-    $result = $stmt->fetchAll();
 
-    // total rows
-    $sql = "SELECT COUNT(*) from article";
-    $sql = $sql . " WHERE article.genre = " . $filter;
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
-    $total = $stmt->fetchColumn();
-    //$total = count($result);
+	$result = select_article_by_genre_for_list($db_file,$filter,$range,$cursor);
+	$total = total_count_by_genre($db_file,$filter);
+	
     //print ("<br>total rows : " . $total);
     if ($total == 0) {
     print("There is no data.<br>");}
@@ -86,9 +63,6 @@ try{
 
     $db = null;
 
-    //print("<br>");
-    //print("<h1>Article List</h1>");
-    //print("<br>");
     print("<table><tr><th>id</th><th>title</th><th>author</th><th>genre</th><th>pub_date</th></tr>");
     foreach($result as list(
         $id,
@@ -120,10 +94,7 @@ try{
             $this_page = "article_list.php";
             include 'pagging.php'; 
             print("<br><br>");
-    }
-    catch(PDOException $e) {
-        print($e->getMessage());
-    }
+
 ?>
 
 
