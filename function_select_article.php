@@ -2,7 +2,6 @@
 
 //require_once("function_select_article.php");
 
-
 /*------------------------------------------------
  call
 	$total = get_total_count($db_file,"article")

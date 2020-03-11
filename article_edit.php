@@ -6,6 +6,7 @@ print("<title>Article Detail</title>");
 include 'header.php';
 ?>
 
+
 <div class="w3-row">
 
 <?php

@@ -3,6 +3,7 @@ include 'load_first.html';
 include 'sqlite-env.php';
 require_once("function_select_article.php");
 
+
 if(isset($_GET['id'])) $id = $_GET['id'];
 else $id = 1;
 

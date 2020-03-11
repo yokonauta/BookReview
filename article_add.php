@@ -3,6 +3,7 @@ include 'load_first.html';
 include 'sqlite-env.php';
 require_once('function_select_article.php');
 ?>
+
 <title>Add new article</title>
 <link rel='stylesheet' href='css/table.css'>
 <div class="w3-content" style="max-width:1400px">
