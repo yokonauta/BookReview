@@ -6,18 +6,6 @@ require_once("function_select_article.php");
 if(isset($_GET['id'])) $id = $_GET['id'];
 else $id = 1;
 
-/*
-    //=== ARTICLE ===
-    $file_db = new PDO($db_file);
-    $sql = "SELECT article.id,title,intro,body,author.first_name,author.last_name,genre.name,pub_date,state,image1";
-    $sql = $sql . " FROM article";
-    $sql = $sql . " INNER JOIN author ON article.author_id = author.id";
-    $sql = $sql . " INNER JOIN genre ON article.genre_id = genre.id";
-    $sql = $sql . " where article.id = $id";
-    $stmt = $file_db->prepare($sql);
-    $stmt->execute();
-    $result = $stmt->fetchAll();
-    $file_db = null;*/
 
 ?>
 <title>show articles</title>
@@ -38,11 +26,9 @@ else $id = 1;
     foreach($result as list($id,$title,$intro,$body,$author_first_name,$author_last_name,$genre,$pub_date,$state,$image1))
     {  
         print("<div class='w3-card-4 w3-margin w3-white'>");
-
         print("<div class='w3-container'><h3><b>$title</b></h3>");
         print("<h5>$author_first_name,$author_last_name<span class='w3-opacity'>&nbsp;$pub_date</span></h5></div>");
-
-        print("<img src='UploadedImages/$image1' height='150' />");
+        print("<img src='$image_directory$image1' height='150' />");
         print("<div class='w3-container'><input type='checkbox' class='read-more-state' id='post-$cnt' />");
         print("<p class='read-more-wrap'>");
         print($intro);
@@ -51,7 +37,6 @@ else $id = 1;
         print("<br><br></span></p>");
         print("<label for='post-$cnt' class='read-more-trigger'></label>");
         print("</div><br>");
-
         print("</div><!-- w3-card-4 -->");
         $cnt = $cnt + 1;
     }

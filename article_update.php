@@ -37,7 +37,11 @@ if(isset($_GET['id'])) {
         $sql = $sql . "title = '" . $_POST['title'] . "',intro = \"" . $intro . "\",body = \"" . $body . "\",";
         $sql = $sql . "author_id = " . $_POST['author'] . ",genre_id = " . $_POST['genre'] . ",pub_date = '" . $_POST['pub_date'] . "',";
         $sql = $sql . "state = '" . $_POST['state'] . "'";
-		if ($_POST['keep']!=true){
+
+		
+		if(isset($_POST['keep']))$keep = true;
+		else $keep = false;
+		if (!$keep){
 			$sql = $sql . ",image1 = '" . $file_name . "'";
         }
 		$sql = $sql . " where id = " . $id;

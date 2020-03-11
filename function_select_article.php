@@ -1,7 +1,7 @@
 <?php
 
 //require_once("function_select_article.php");
-;
+
 
 /*------------------------------------------------
  call
@@ -66,6 +66,16 @@ function select_article_by_genre($db_file,$genre)
     $sql = $sql . " INNER JOIN author ON article.author_id = author.id";
     $sql = $sql . " where genre_id = $genre";
     $stmt = $file_db->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+    $file_db = null;
+	return $result;
+}
+
+function select_plane_article_by_id($db_file,$id)
+{
+    $file_db = new PDO($db_file);
+    $stmt = $file_db->prepare("SELECT * FROM article where id = $id");
     $stmt->execute();
     $result = $stmt->fetchAll();
     $file_db = null;

@@ -1,7 +1,7 @@
 <?php
 include 'load_first.html';
 include 'sqlite-env.php';
-
+require_once('function_select_article.php');
 print("<title>Article Detail</title>");
 include 'header.php';
 ?>
@@ -13,25 +13,33 @@ if(isset($_GET['id'])) {
     $id = $_GET['id'];
 try{
     //=== ARTICLE ===
-    $file_db = new PDO($db_file);
-    $stmt = $file_db->prepare("SELECT * FROM article where id = $id");
-    $stmt->execute();
-    $result = $stmt->fetchAll();
-    $file_db = null;
+    //$file_db = new PDO($db_file);
+    //$stmt = $file_db->prepare("SELECT * FROM article where id = $id");
+    //$stmt->execute();
+    //$result = $stmt->fetchAll();
+    //$file_db = null;
+//print("file = " . $db_file . "<p>");
+//print("id = " . $id . "<p>");
+	$result = select_plane_article_by_id($db_file,$id);
 
-    list($id,$title,$intro,$body,$author,$genre,$pub_date,$state,$keep,$image1,$image2,$image3,$image4) = $result[0];
-    //=== AUTHOR ===
+    list($id,$title,$intro,$body,$author,$genre,$pub_date,$state,$image1,$image2,$image3,$image4) = $result[0];
+
+	//=== AUTHOR ===
     $db = new PDO($db_file);
     $results = $db->query('SELECT * FROM author');
     $db = null;
     $author_result = $results->fetchAll();
     $author_id_array = array();
     $author_array = array();
+	
+	
     foreach($author_result as $item){
         $author_id_array[]=$item[0];
         $author_array[]=$item[1] . " , " . $item[2];
     }
     $author_list_cnt = count($author_result);
+	
+	
     //=== GENRE ===
     $genre_db = new PDO($db_file);
     $stmt = $genre_db->prepare("SELECT * FROM genre");

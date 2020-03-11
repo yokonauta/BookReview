@@ -33,7 +33,7 @@ try{
         $author_array[]=$item[1] . " , " . $item[2];
         //print("author_id:" . $item[0] . "author:" .$item[1] . " , " . $item[2]."<br>");
     }
-    $author_cnt = count($author_array);
+    //$author_cnt = count($author_array);
     //=== GENRE ===
     $genre_db = new PDO($db_file);
     $stmt = $genre_db->prepare("SELECT * FROM genre");
@@ -55,94 +55,49 @@ try{
 
             <?php
             try{
-				/*
-            $db = new PDO($db_file);
-            $sql = "SELECT article.id,title,intro,body,author.first_name,author.last_name,genre.name,pub_date,state,image1";
-            $sql = $sql . " FROM article";
-            $sql = $sql . " INNER JOIN author ON article.author_id = author.id";
-            $sql = $sql . " INNER JOIN genre ON article.genre_id = genre.id";
-            $sql = $sql . " ORDER BY article.pub_date DESC";
-            $sql = $sql . " LIMIT " . $range . " OFFSET " . $cursor; 
-            $stmt = $db->prepare($sql);
-            $stmt->execute();
-            $result = $stmt->fetchAll();
-            /* get total count */
-            /*$db = new PDO($db_file);
-            $sql = "SELECT count(*) FROM article";
-            $stmt = $db->prepare($sql);
-            $stmt->execute();
-            $total = $stmt->fetchColumn();
-            
-            $db = null;
-			*/
 			
-			$result = select_article_one_page($db_file,$range,$cursor);
-			$total = get_total_count($db_file,"article");
-            $last=$cursor+$range;
-            if ($last>$total)$last=$total;
+				$result = select_article_one_page($db_file,$range,$cursor);
+				$total = get_total_count($db_file,"article");
+				$last=$cursor+$range;
+				if ($last>$total)$last=$total;
 
-            print("<table><tr><th>title</th><th>author</th><th>genre</th><th>publicated date</th><th>total : $total</th></tr>");
-            foreach($result as list(
-                $id,
-                $title,
-                $intro,
-                $body,
-                $author_first_name,
-                $author_last_name,
-                $genre,
-                $pub_date,
-				$state,
-                $image1,
-            ) )
-            {
-                print("<tr>");
-                //print("<td>$id</td>");
-				if ($state == 'Published')$color='#222222';
-				else                      $color='#a0a0a0';
-                print("<td><font color=$color>$title<font></td>");
-                print("<td><font color=$color>$author_first_name,$author_last_name<font></td>");
-                print("<td><font color=$color>$genre<font></td>");
-                print("<td><font color=$color>$pub_date<font></td>");
-                //print("<td>$image1</td>");
+				print("<table><tr><th>title</th><th>author</th><th>genre</th><th>publicated date</th><th>total : $total</th></tr>");
 
-                // delete button start
-                /* No Confirm Dialog
-				print("<td><a href='article_delete_execute.php?id=");
-                print($id);
-                print("&cursor=");
-                print($id);
-                print("' class='w3-btn w3-grey' >delete</a></td>");
-				*/
+				foreach($result as list($id,$title,$intro,$body,$author_first_name,$author_last_name,$genre,$pub_date,$state,$image1))
+				{
+					print("<tr>");
+					if ($state == 'Published')$color='#222222';
+					else                      $color='#a0a0a0';
+					print("<td><font color=$color>$title<font></td>");
+					print("<td><font color=$color>$author_first_name,$author_last_name<font></td>");
+					print("<td><font color=$color>$genre<font></td>");
+					print("<td><font color=$color>$pub_date<font></td>");
 				
-				// Call Confirm modal dialog + script "submitChk ()"
-				print("<td><form name='btnForm' method='post' action='article_delete_execute.php?id=");
-                print($id);
-                print("&cursor=");
-                print($cursor);
-				print("' onsubmit='return submitChk()'>");
-				print("<input class='w3-btn w3-grey'  type='submit' name='submit' value='del'>");
-				print("</form></td>");
+					// Call Confirm modal dialog + script "submitChk ()"
+					print("<td><form name='btnForm' method='post' action='article_delete_execute.php?id=");
+					print($id);
+					print("&cursor=");
+					print($cursor);
+					print("' onsubmit='return submitChk()'>");
+					print("<input class='w3-btn w3-grey'  type='submit' name='submit' value='del'>");
+					print("</form></td>");
 
-                // delete button finish
-				
-                // edit button start
-                print("<td><a href='article_edit.php?id=");
-                print($id);
-                print("&cursor=");
-                print($id);
-                print("' class='w3-btn w3-grey' >edit</a></td>");
-				
-                // edit button finish
-                print("</tr>");
-            }
-            print("</table><br>");
-            // $total, $range, $cursor have been set befor.
-            $this_page = "article_add.php";
-            include 'pagging.php'; 
-            print("<br><br><a href='admin.php' class='w3-btn w3-grey'>Back to admin page</a>");
+					// edit button start
+					print("<td><a href='article_edit.php?id=");
+					print($id);
+					print("&cursor=");
+					print($id);
+					print("' class='w3-btn w3-grey' >edit</a></td>");
+					print("</tr>");
+				}
+				print("</table><br>");
+				// $total, $range, $cursor have been set befor.
+				$this_page = "article_add.php";
+				include 'pagging.php'; 
+				print("<br><br><a href='admin.php' class='w3-btn w3-grey'>Back to admin page</a>");
             }
             catch(PDOException $e) {
-            print($e->getMessage());
+				print($e->getMessage());
             }
 
 ?>
@@ -175,6 +130,7 @@ try{
             <label class="w3-text-gray" for="author"><b>Author</b></label>
             <select class="w3-light-grey" name="author" style="width:300px;height:40px;">
             <?php
+			$author_cnt = count($author_array);
             if($author_cnt){
                 $option_cnt=0;
                 for($option_cnt;$option_cnt<$author_cnt;$option_cnt++){
