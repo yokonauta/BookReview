@@ -60,7 +60,9 @@ try{
 
 <div class="w3-card-4" >
 <div class="w3-panel w3-white" >
-<form class="w3-container" align="left" action="article_update.php?id=<?php echo $id; ?>" method="post" id="article_form" enctype="multipart/form-data">
+<form class="w3-container" align="left" action="article_update.php?id=<?php echo $id; ?>"  
+		onsubmit='return submitChk()'
+		method="post" id="article_form" enctype="multipart/form-data">
     <p>      
     <label class="w3-text-gray"><b>Title</b></label>
     <input class="w3-input w3-border w3-light-grey" name="title" type="text" value="<?php echo $title; ?>" style="width:50%;">
@@ -141,6 +143,12 @@ try{
     </div>
 
 </div><!--w3-row-->
+				<script>
+					function submitChk () {
+						var flag = confirm ( "Execute?");
+						return flag;
+					}
+				</script>
 
 <?php include "footer.html"; ?>
 
