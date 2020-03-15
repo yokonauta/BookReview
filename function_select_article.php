@@ -71,7 +71,7 @@ function select_article_by_genre($db_file,$genre)
 	return $result;
 }
 
-function select_plane_article_by_id($db_file,$id)
+function select_article_by_id_no_join($db_file,$id)
 {
     $file_db = new PDO($db_file);
     $stmt = $file_db->prepare("SELECT * FROM article where id = $id");
@@ -141,6 +141,23 @@ function total_count_genre($db_file)
 	return $genre_result;
 }	
 
+function get_genre_list($db_file)
+{
+    $db = new PDO($db_file);
+    $results = $db->query('SELECT * FROM genre');
+    $genre_result = $results->fetchAll();
+    $db = null;
+	return $genre_result;
+}
+
+function get_author_list($db_file)
+{
+    $db = new PDO($db_file);
+    $results = $db->query('SELECT * FROM author');
+    $author_result = $results->fetchAll();
+    $db = null;	
+	return $author_result;
+}
 
 
 ?>

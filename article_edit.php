@@ -14,44 +14,20 @@ if(isset($_GET['id'])) {
     $id = $_GET['id'];
 try{
     //=== ARTICLE ===
-    //$file_db = new PDO($db_file);
-    //$stmt = $file_db->prepare("SELECT * FROM article where id = $id");
-    //$stmt->execute();
-    //$result = $stmt->fetchAll();
-    //$file_db = null;
-//print("file = " . $db_file . "<p>");
-//print("id = " . $id . "<p>");
-	$result = select_plane_article_by_id($db_file,$id);
-
+	$result = select_article_by_id_no_join($db_file,$id);
     list($id,$title,$intro,$body,$author,$genre,$pub_date,$state,$image1,$image2,$image3,$image4) = $result[0];
 
-	//=== AUTHOR ===
-    $db = new PDO($db_file);
-    $results = $db->query('SELECT * FROM author');
-    $db = null;
-    $author_result = $results->fetchAll();
-    $author_id_array = array();
-    $author_array = array();
-	
-	
-    foreach($author_result as $item){
-        $author_id_array[]=$item[0];
-        $author_array[]=$item[1] . " , " . $item[2];
-    }
+	//=== AUTHOR LIST===
+	$author_result = get_author_list($db_file);
     $author_list_cnt = count($author_result);
 	
-	
     //=== GENRE ===
-    $genre_db = new PDO($db_file);
-    $stmt = $genre_db->prepare("SELECT * FROM genre");
-    $stmt->execute();
-    $genre_result = $stmt->fetchAll();
-    $genre_db = null;
-    $genre_list_cnt = count($genre_result);
-    }
-    catch(PDOException $e) {
-        echo $e->getMessage();
-    }
+	$genre_result = get_genre_list($db_file);
+	$genre_list_cnt = count($genre_result);
+}
+catch(PDOException $e) {
+     echo $e->getMessage();
+}
     //include "check_detail.php";
 }
 ?>
