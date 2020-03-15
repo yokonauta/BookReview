@@ -2,7 +2,7 @@
  
 $uploadfile = 'C:\Apache24\htdocs\temp\temp.png';
 
-$target_dir = "UploadedImages/";
+$target_dir = "../UploadedImages/";
 $target_file = $target_dir . basename($_FILES["image"]["name"]);
 print("<br>target : " . $target_file);
 

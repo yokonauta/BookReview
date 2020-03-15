@@ -56,7 +56,7 @@ if(isset($_GET['id'])) {
         //=== IMAGE UPLOAD EXECUTE =================================
         //--- Overerite si exist same name
         // $_FILES['image1'] from Form
-        // $target_file ex:'UploadedImages/the bone collection.png'
+        // $target_file ex:'../UploadedImages/the bone collection.png'
         //----------------------------------------------------------  
         include 'upload_image.php';
     }
